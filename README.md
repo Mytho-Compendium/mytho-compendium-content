@@ -10,6 +10,8 @@ This repository is the **data factory** of Mytho Compendium. It contains everyth
 
 The pipeline is built around **Claude Code skills**, focused AI agents designed to perform specific, repeatable tasks with strict content and sourcing standards.
 
+Like all Mytho Compendium repositories, this repo serves a dual purpose: it is both a functional tool and an **open-source educational resource**. Commits are intentionally atomic and educative, reflecting real-world best practices and explaining reasoning, designed to be instructive for the broader developer community.
+
 > ⚠️ This repository is in early stages. Structure and tooling will evolve as the pipeline is built out.
 
 ---
@@ -48,11 +50,29 @@ mytho-compendium-content/
 │   ├── validate_sources.py          # Cross-checks sources before ingestion
 │   └── utils/
 │
+├── .claude/
+│   └── commands/
+│       └── mc-workflow.md           # /mc-workflow Claude Code command (thin wrapper)
+│
+├── tools/                           # Developer workflow scripts (Notion API + GitHub API)
+│   └── workflow/
+│       ├── workflow_start.py        # Create branch, move ticket to IN PROGRESS
+│       ├── workflow_pr.py           # Open PR, move ticket to IN REVIEW
+│       └── workflow_merge.py        # Merge PR, move ticket to DONE
+│
 └── docs/
     ├── content-standards.md         # Truth levels, source tiers, validation rules
     ├── graph-design.md              # Rationale for the Neo4j graph model
     └── schema-design.md             # Rationale for the PostgreSQL schema
 ```
+
+---
+
+## Developer Workflow Tooling
+
+The `/mc-workflow` Claude Code command (`/mc-workflow start`, `/mc-workflow pr`, `/mc-workflow merge`) automates the developer workflow. These commands are **thin wrappers** around real Python scripts in `tools/` that call the Notion and GitHub APIs directly.
+
+The actual logic lives in Python, not in a prompt, meaning the scripts are fully runnable without Claude Code, testable, and readable as concrete API integration examples. This is intentional: it aligns with the educative mission of the project.
 
 ---
 
@@ -109,4 +129,4 @@ cypher-shell < neo4j/indexes.cypher
 |:---|:---------------------------------------------------------------|
 | **mytho-compendium-app** | Android app, future KMP                                        |
 | **mytho-compendium-server** | Ktor backend that reads from the databases this repo populates |
-| **mytho-compendium-content** _(this repo)_ | Content pipeline, Claude Code skills, data ingestion a         |
+| **mytho-compendium-content** _(this repo)_ | Content pipeline, Claude Code skills, data ingestion scripts   |
