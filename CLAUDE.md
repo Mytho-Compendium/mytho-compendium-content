@@ -8,11 +8,12 @@ Content pipeline for **Mytho Compendium**, Claude Code skills for mythology rese
 
 ## Repository Purpose
 
-This repo is fully independent from the Android app and the Ktor server. It only produces data, it does not serve it. Its three core concerns are:
+This repo is fully independent from the Android app and the Ktor server. It only produces data, it does not serve it. Its four core concerns are:
 
 1. **Skills** - Claude Code skill definitions for repeatable content tasks (research, validation, image prompt generation)
 2. **Schemas** - Neo4j graph schema and PostgreSQL relational schema
 3. **Ingestion** - Python scripts that populate the databases from validated content
+4. **Developer Tooling** - Python scripts automating the development workflow (Notion + GitHub API integration)
 
 ## Repository Structure
 
@@ -23,8 +24,26 @@ skills/                          # Claude Code skill definitions (source of trut
 neo4j/                           # Neo4j graph database schema and seed data
 postgresql/                      # PostgreSQL relational schema and migrations
 ingestion/                       # Python scripts that populate the databases
+tools/                           # Developer workflow scripts (Notion API + GitHub API)
+│   └── workflow/
+│       ├── workflow_start.py    # Create branch, move ticket to IN PROGRESS
+│       ├── workflow_pr.py       # Open PR, move ticket to IN REVIEW
+│       └── workflow_merge.py    # Merge PR, move ticket to DONE
 docs/                            # Design decisions and content standards
 ```
+
+## Developer Tooling
+
+The `.claude/commands/mc-workflow.md` skill exposes a `/mc-workflow` command for the developer workflow (`/mc-workflow start`, `/mc-workflow pr`, `/mc-workflow merge`). These Claude Code commands are **thin wrappers** around real Python scripts that live in `tools/`.
+
+The actual logic: Notion API calls, GitHub API calls and branch creation lives in `tools/`, not in the prompt. This means:
+- The scripts are runnable by anyone without Claude Code
+- The workflow logic is real, testable Python code
+- It aligns with the educative mission of the project (see below)
+
+## Educative Purpose
+
+Like all Mytho Compendium repositories, this repo serves a dual purpose: it is both a functional tool and an **open-source educational resource**. Commits are intentionally atomic and educative, explaining reasoning and reflecting real-world best practices. The codebase is designed to be readable and instructive for the broader developer community.
 
 ## Content Standards
 
