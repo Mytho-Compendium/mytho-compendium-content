@@ -1,0 +1,20 @@
+# Normalize line endings to LF on commit, convert to OS native on checkout
+* text=auto
+
+# Force LF for these file types regardless of OS
+*.json text eol=lf
+*.py   text eol=lf
+*.md   text eol=lf
+*.yaml text eol=lf
+*.yml  text eol=lf
+*.sh   text eol=lf
+*.cypher text eol=lf
+*.sql  text eol=lf
+
+# Binary files — no conversion
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.pdf  binary
